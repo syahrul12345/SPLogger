@@ -22,7 +22,7 @@ Each subfolder has `sample.env`. Please change it accordingly, and save it as `.
 For frontend, we have to specify the URL of the backend services as such:
 
 ```
-PORT=80
+PORT=443
 REACT_APP_BACKEND_URL=https://spdigitalbackend.syahrulnizam.xyz
 ```
 
@@ -34,17 +34,21 @@ FRONTEND_URL=https://spdigital.syahrulnizam.xyz
 
 ### Building frontend
 
+Before building frontend, make sure to edit the provided `sample.ev` file and fill up the required fields. After that rename it to `.env`.
+
 ```
-git clone https://github.com/syahrul12345/appliancelogger.git
-cd appliancelogger/frontend
+git clone https://github.com/syahrul12345/splogger.git
+cd splogger/frontend
 docker-compose up -d
 ```
 
 ### Building backend
 
+Before building frontend, make sure to edit the provided `sample.ev` file and fill up the required fields. After that rename it to `.env`.
+
 ```
-git clone https://github.com/syahrul12345/appliancelogger.git
-cd appliancelogger/backend
+git clone https://github.com/syahrul12345/splogger.git
+cd splogger/backend
 docker-compose up -d
 ```
 
