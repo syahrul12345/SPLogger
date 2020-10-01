@@ -1,0 +1,1 @@
+export { SearchBox, ConnectedSearchBox } from './SearchBox'

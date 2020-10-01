@@ -1,0 +1,31 @@
+version: "3"
+services:
+  backend:
+    build: .
+    environment:
+      - PORT=${PORT}
+      - is_production=true
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+      - DB_NAME=${DB_NAME}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - FRONTEND_URL=${FRONTEND_URL}
+    ports:
+      - ${PORT}:${PORT}
+    links:
+      - db
+  db:
+    container_name: "spdigitaldb"
+    image: postgres
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+      - POSTGRES_DB=${DB_NAME}
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - spdigitalvolume:/var/lib/postgresql/data/
+    ports:
+      - 5433:${DB_PORT}
+volumes:
+  spdigitalvolume:

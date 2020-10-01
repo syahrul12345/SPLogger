@@ -1,0 +1,32 @@
+FROM golang:alpine as stage1
+
+WORKDIR /app
+COPY go.mod .
+RUN go mod download
+
+# Build go binary
+COPY main.go .
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main .
+
+FROM node:alpine as stage2
+WORKDIR /app
+COPY website/package.json .
+# Define arguments and load the environment varialbes into them
+ARG REACT_APP_BACKEND_URL
+
+ENV REACT_APP_BACKEND_URL ${REACT_APP_BACKEND_URL}
+
+RUN yarn
+COPY website/ .
+# Test all components
+RUN yarn test
+RUN yarn build
+
+#Lightweight final container
+FROM alpine as stage3
+WORKDIR /app
+COPY --from=stage1 /app/main .
+COPY --from=stage2 /app/build/  .build/
+CMD ["./main","-prod"]
+
+

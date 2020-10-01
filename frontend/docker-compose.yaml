@@ -1,0 +1,12 @@
+version: '3'
+services:
+  appliancelogger:
+    container_name: appliancelogger
+    build: 
+      context: .
+      args:
+        - REACT_APP_BACKEND_URL=${REACT_APP_BACKEND_URL}
+    environment: 
+      - PORT=${PORT}
+    ports:
+      - ${PORT}:${PORT}
