@@ -48,7 +48,7 @@ const SearchBox = (props) => {
       searchCallback,
       searchFailCallback,
       selectedFilter,
-      searchTerm
+      searchTerm.toLowerCase()
     );
   };
   const handleFilterChange = (event) => {
