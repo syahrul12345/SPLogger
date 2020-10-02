@@ -1,65 +1,82 @@
-import React, { useState } from 'react';
-import { Grid, TextField, Button,FormControl,InputLabel,Select,MenuItem } from '@material-ui/core'
+import React, { useState } from "react";
+import {
+  Grid,
+  TextField,
+  Button,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  FormLabel,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+} from "@material-ui/core";
 
 // Redux
-import { connect } from 'react-redux';
-import { UpdateSearchedAppliances } from '../../redux-modules/user/actions'
+import { connect } from "react-redux";
+import { UpdateSearchedAppliances } from "../../redux-modules/user/actions";
 // API
-import { SubmitSearch } from '../../utils/utils';
+import { SubmitSearch } from "../../utils/utils";
 
 // Componenets
-import ErrorDialog from '../errordialog';
+import ErrorDialog from "../errordialog";
 
 const SearchBox = (props) => {
-  const [searchTerm,setSearchTerm] = useState('');
-  const [selectedFilter,setSelectedFilter] = useState('SerialNumber');
-  const [openErrorDialog,setOpenErrorDialog] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedFilter, setSelectedFilter] = useState("SerialNumber");
+  const [openErrorDialog, setOpenErrorDialog] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const searchTermHandler = () => event => {
-    setSearchTerm(event.target.value)
-  }
-  
+  const searchTermHandler = () => (event) => {
+    setSearchTerm(event.target.value);
+  };
+
   const searchCallback = (resp) => {
-    const { data } = resp
-    if(data.length === 0) {
-      setErrorMessage("No objects were found")
-      setOpenErrorDialog(true)
-    }else {
+    const { data } = resp;
+    if (data.length === 0) {
+      setErrorMessage("No objects were found");
+      setOpenErrorDialog(true);
+    } else {
       // Update search results into redux
-      props.dispatch(UpdateSearchedAppliances(data))
+      props.dispatch(UpdateSearchedAppliances(data));
     }
-  }
+  };
   const searchFailCallback = (errResp) => {
-    setErrorMessage("No objects were found")
-    setOpenErrorDialog(true)
-  }
+    setErrorMessage("No objects were found");
+    setOpenErrorDialog(true);
+  };
   const search = () => {
-    SubmitSearch(searchCallback,searchFailCallback,selectedFilter,searchTerm)
-  }
+    SubmitSearch(
+      searchCallback,
+      searchFailCallback,
+      selectedFilter,
+      searchTerm
+    );
+  };
   const handleFilterChange = (event) => {
-    setSelectedFilter(event.target.value)
-  }
+    setSelectedFilter(event.target.value);
+  };
   const clearSearch = () => {
-    props.dispatch(UpdateSearchedAppliances([]))
-  }
+    props.dispatch(UpdateSearchedAppliances([]));
+  };
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
-        <TextField 
-          id="standard-basic" 
-          label="Search for appliance" 
+        <TextField
+          id="standard-basic"
+          label="Search for appliance"
           InputLabelProps={{
             shrink: true,
-            style: { color: '#fff' },
+            style: { color: "#fff" },
           }}
-          style={{width:'100%'}}
-          type={ selectedFilter === 'DateBought' ? 'date' : 'text'}
-          onChange={searchTermHandler()}/>
-          
+          style={{ width: "100%" }}
+          type={selectedFilter === "DateBought" ? "date" : "text"}
+          onChange={searchTermHandler()}
+        />
       </Grid>
       <Grid item xs={12}>
-      <FormControl>
+        {/* <FormControl>
           <InputLabel id="demo-simple-select-label">Filter</InputLabel>
           <Select
             labelId="demo-simple-select-label"
@@ -67,29 +84,79 @@ const SearchBox = (props) => {
             value={selectedFilter}
             onChange={handleFilterChange}
           >
-            <MenuItem value={'SerialNumber'}> SerialNumber</MenuItem>
-            <MenuItem value={'Brand'}>Brand</MenuItem>
-            <MenuItem value={'Model'}>Model</MenuItem>
-            <MenuItem value={'Status'}>Status</MenuItem>
-            <MenuItem value={'DateBought'}>Date Purchased</MenuItem>
+            <MenuItem value={"SerialNumber"}> SerialNumber</MenuItem>
+            <MenuItem value={"Brand"}>Brand</MenuItem>
+            <MenuItem value={"Model"}>Model</MenuItem>
+            <MenuItem value={"Status"}>Status</MenuItem>
+            <MenuItem value={"DateBought"}>Date Purchased</MenuItem>
           </Select>
+        </FormControl> */}
+        <FormControl component="fieldset">
+          <FormLabel component="legend"> Filters </FormLabel>
+          <RadioGroup
+            aria-label="gender"
+            value={selectedFilter}
+            onChange={handleFilterChange}
+            style={{ flexDirection: "row" }}
+          >
+            <FormControlLabel
+              value={"SerialNumber"}
+              control={<Radio />}
+              label="Male"
+            />
+            <FormControlLabel
+              value={"Brand"}
+              control={<Radio />}
+              label="Brand"
+            />
+            <FormControlLabel
+              value={"Model"}
+              control={<Radio />}
+              label="Model"
+            />
+            <FormControlLabel
+              value={"Status"}
+              control={<Radio />}
+              label="Status"
+            />
+            <FormControlLabel
+              value={"DateBought"}
+              control={<Radio />}
+              label="Purchased"
+            />
+          </RadioGroup>
         </FormControl>
       </Grid>
-      
+
       <Grid item xs={12}>
-        <Button variant="contained" color="primary" onClick={() => search()}> Search </Button>
-        <Button variant="contained" color="primary" onClick={() => clearSearch()} style={{marginLeft:'5px'}}> Clear Search </Button>
+        <Button variant="contained" color="primary" onClick={() => search()}>
+          {" "}
+          Search{" "}
+        </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => clearSearch()}
+          style={{ marginLeft: "5px" }}
+        >
+          {" "}
+          Clear Search{" "}
+        </Button>
       </Grid>
-      <ErrorDialog open={openErrorDialog} setOpen={setOpenErrorDialog} errorMessage={errorMessage}/>
+      <ErrorDialog
+        open={openErrorDialog}
+        setOpen={setOpenErrorDialog}
+        errorMessage={errorMessage}
+      />
     </Grid>
-  )
-}
+  );
+};
 const mapStateToProps = (state) => {
-  return ({
+  return {
     searchResults: state.user.searchResults,
-  })
-}
+  };
+};
 
 const ConnectedSearchBox = connect(mapStateToProps)(SearchBox);
 
-export { SearchBox, ConnectedSearchBox }
+export { SearchBox, ConnectedSearchBox };
