@@ -1,1 +1,1 @@
-export { SearchResults, ConnectedSearchResults } from './SearchResults';
+export { SearchResults, ConnectedSearchResults } from "./SearchResults";
