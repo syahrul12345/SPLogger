@@ -30,7 +30,12 @@ const App = React.memo((props) => {
       alignContent="center"
       alignItems="center"
       spacing={2}
-      style={{ minHeight: "50vh", paddingLeft: "5%", paddingRight: "5%" }}
+      style={{
+        minHeight: "50vh",
+        paddingLeft: "5%",
+        paddingRight: "5%",
+        paddingTop: "5vh",
+      }}
     >
       <Grid item xs={12}>
         <ConnectedSearchBox />
