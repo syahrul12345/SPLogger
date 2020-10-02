@@ -4,9 +4,6 @@ import {
   TextField,
   Button,
   FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   FormLabel,
   RadioGroup,
   FormControlLabel,
@@ -102,7 +99,7 @@ const SearchBox = (props) => {
             <FormControlLabel
               value={"SerialNumber"}
               control={<Radio />}
-              label="Male"
+              label="Serial Number"
             />
             <FormControlLabel
               value={"Brand"}
